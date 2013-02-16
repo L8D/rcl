@@ -1,0 +1,8 @@
+#!/bin/bash
+dbfile='database'
+if [ $1 = '-r' ]; then
+  rm $dbfile
+  touch $dbfile
+else
+  md5 -q $1 >> $dbfile
+fi
