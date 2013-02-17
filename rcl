@@ -2,27 +2,56 @@
 import os
 import sys
 import md5
-def indexfile(dbfile, infile):
+def indexfile(db, inp):
+
+  # Open the files
+  infile = open(inp).read()
+  dbfile = open(db, 'r+a')
+
+  # Create hash and hash table from database
   filehash = md5.md5(infile).hexdigest()
   hashes = dbfile.read().split("\n")
+
+  # Check if hash is in table already
   if filehash in hashes:
     print("File already indexed")
+
+  # Add hash and filesize to database
   else:
-    dbfile.write(filehash + "\n")
+    dbfile.write(str(os.path.getsize(inp)) + "\n" + filehash + "\n")
     print("Cached: " + filehash)
+
+
 if len(sys.argv) > 1:
+
+  # Check if the first arguement is a file
   if os.path.isfile(sys.argv[1]):
-    indexfile(open('database', 'r+a'), open(sys.argv[1]).read())
+    indexfile('database', sys.argv[1])
+    # Ask the user if they're sure they want to delete their file
     print("Are you sure? [Y/n]"),
     uc = raw_input()
+
     if uc in ['y', 'Y', 'yes' ]:
       os.remove(sys.argv[1])
       print('Deleted')
+
     else:
       print('Canceled')
+
+  # Simple clear function to erase the database
   elif sys.argv[1] == "--clear" or sys.argv[1] == "-c":
     open('database', 'w').write("")
+
+  # Function for simply hashing the file and not promptinh for deletion
+  elif sys.argv[1] == "--hash" or sys.argv[1] == "-h":
+    indexfile('database', sys.argv[2])
+
+  # Function to assign custom database
+  elif sys.argv[1] == "--database" or sys.argv[1] == "-d":
+    indexfile(sys.argv[2], sys.argv[3])
+
   else:
     print("File not found: " + sys.argv[1])
+
 else:
-  print("Usage:\nrcl [-c] <filename>")
+  print("Usage: rcl [-cdh] <filename>")
