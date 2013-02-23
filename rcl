@@ -47,6 +47,12 @@ if len(sys.argv) > 1:
   elif sys.argv[1] == "--hash" or sys.argv[1] == "-h":
     indexfile('database', sys.argv[2])
 
+  # Function for forcing the deletion with no prompt
+  elif sys.argv[1] == "--force" or sys.argv[1] == "-f":
+    indexfile('database', sys.argv[2])
+    os.remove(sys.argv[2])
+    print('Deleted')
+
   # Function to assign custom database
   elif sys.argv[1] == "--database" or sys.argv[1] == "-d":
     indexfile(sys.argv[2], sys.argv[3])
