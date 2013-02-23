@@ -27,6 +27,7 @@ if len(sys.argv) > 1:
   # Check if the first arguement is a file
   if os.path.isfile(sys.argv[1]):
     indexfile('database', sys.argv[1])
+
     # Ask the user if they're sure they want to delete their file
     print("Are you sure? [Y/n]"),
     uc = raw_input()
