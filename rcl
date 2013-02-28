@@ -43,7 +43,7 @@ if len(sys.argv) > 1:
   elif sys.argv[1] == "--clear" or sys.argv[1] == "-c":
     open('database', 'w').write("")
 
-  # Function for simply hashing the file and not promptinh for deletion
+  # Function for simply hashing the file and not prompting for deletion
   elif sys.argv[1] == "--hash" or sys.argv[1] == "-h":
     indexfile('database', sys.argv[2])
 
