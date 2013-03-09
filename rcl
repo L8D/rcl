@@ -1,7 +1,5 @@
 #! /usr/bin/env python2
-import os
-import sys
-import md5
+import os, sys, hashlib
 def indexfile(db, inp):
 
   # Open the files
@@ -9,8 +7,10 @@ def indexfile(db, inp):
   dbfile = open(db, 'r+a')
 
   # Create hash and hash table from database
-  filehash = md5.md5(infile).hexdigest()
+  filehash = hashlib.sha512(infile).hexdigest()
   hashes = dbfile.read().split("\n")
+  for x, i in enumerate(hashes):
+    hashes[x] = i[0:128]
 
   # Check if hash is in table already
   if filehash in hashes:
@@ -18,7 +18,7 @@ def indexfile(db, inp):
 
   # Add hash and filesize to database
   else:
-    dbfile.write(str(os.path.getsize(inp)) + "\n" + filehash + "\n")
+    dbfile.write(filehash + " Size: " + str(os.path.getsize(inp)) + "\n")
     print("Cached: " + filehash)
 
 
