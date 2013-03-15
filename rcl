@@ -16,7 +16,7 @@ def indexfile(db, inp):
 
   # Seperate the hash from the filesize; This is probably an inefficient way to do this...
   for x, i in enumerate(hashes):
-    hashes[x] = i[0:128]
+    hashes[x] = i.split(' ', 1)
 
   # Check if hash is in table already
   if filehash in hashes:
